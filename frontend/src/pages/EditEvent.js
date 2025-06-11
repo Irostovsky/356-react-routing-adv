@@ -1,5 +1,5 @@
 function EditEventPage() {
-  return <h1>EditEventPage</h1>;
+  return <h1>Edit Event Page</h1>;
 }
 
 export default EditEventPage;
