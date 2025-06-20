@@ -1,41 +1,35 @@
 import { useEffect, useState } from "react";
+
 import EventsList from "../components/EventsList";
 
 function EventsPage() {
-  const [events, setEvents] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchedEvents, setFetchedEvents] = useState();
+  const [error, setError] = useState();
 
   useEffect(() => {
     async function fetchEvents() {
-      try {
-        const response = await fetch("http://localhost:8080/events");
-        if (!response.ok) {
-          throw new Error("Failed to fetch events");
-        }
-        const data = await response.json();
-        setEvents(data.events);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
+      setIsLoading(true);
+      const response = await fetch("http://localhost:8080/events");
+
+      if (!response.ok) {
+        setError("Fetching events failed.");
+      } else {
+        const resData = await response.json();
+        setFetchedEvents(resData.events);
       }
+      setIsLoading(false);
     }
 
     fetchEvents();
   }, []);
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
   return (
     <>
-      <EventsList events={events} />
+      <div style={{ textAlign: "center" }}>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
+      </div>
+      {!isLoading && fetchedEvents && <EventsList events={fetchedEvents} />}
     </>
   );
 }
