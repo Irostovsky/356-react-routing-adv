@@ -4,10 +4,6 @@ import EventItem from "../components/EventItem";
 function EventDetailPage() {
   const data = useLoaderData();
 
-  if (data.isError) {
-    return <p>{data.message}</p>;
-  }
-
   const event = data.event;
   return <EventItem event={event} />;
 }
