@@ -64,8 +64,6 @@ export async function action({ request, params }) {
   if (method === "PATCH") {
     url += `/${params.eventId}`;
   }
-  console.log(method);
-  console.log(url);
   const response = await fetch(url, {
     method: method,
     headers: {
