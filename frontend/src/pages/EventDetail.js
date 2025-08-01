@@ -42,9 +42,9 @@ async function loadEvents() {
   return data.events;
 }
 
-export function loader({ params }) {
+export async function loader({ params }) {
   return {
-    event: loadEvent(params.eventId),
+    event: await loadEvent(params.eventId),
     events: loadEvents(),
   };
 }
